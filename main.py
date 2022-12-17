@@ -4,13 +4,15 @@ from twilio.rest import Client
 
 TWILIO_ACCOUNT_SID: str
 TWILIO_AUTH_TOKEN: str
-API_KEY = 'M8BTqoOSy1Bl1OKavULFTG7gY19jCFAF'
+API_KEY = ''
+TWILIO_ACCOUNT_SID=''
+TWILIO_AUTH_TOKEN=''
 LAT = -27.577278
 LNG = -48.525576
 LOCATION_KEY = 35952
-LOCATION_KEY_two = '3-35347_1_AL'
+LOCATION_KEY_two = 39340
 
-OWM_Endpoint = f'http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/{LOCATION_KEY}'
+OWM_Endpoint = f'http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/{LOCATION_KEY_two}'
 
 weather_params = {
     'lat': LAT,
@@ -39,4 +41,15 @@ def is_rain_12_hours(my_data: list) -> None:
 
 is_rain_12_hours(data)
 
-print(probably_rain)
+if probably_rain:
+    account_sid = TWILIO_ACCOUNT_SID
+    auth_token = TWILIO_AUTH_TOKEN
+    client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+        body="It's going to rain today. Remember to bring an ☔",
+        from_='+14245005133',
+        to='+99999999999'
+    )
+
+    print(message.status)
